@@ -1,18 +1,17 @@
-plugins {
-    kotlin("jvm") version "2.2.20"
-}
-
 group = "fr.christopheml"
-version = "1.0-SNAPSHOT"
 
 repositories {
-    mavenCentral()
+  mavenCentral()
+}
+
+plugins {
+  alias(libs.plugins.kotlin.jvm)
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
+  testImplementation(kotlin("test"))
 }
 
 tasks.test {
-    useJUnitPlatform()
+  useJUnitPlatform()
 }

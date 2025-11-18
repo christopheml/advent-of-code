@@ -1,0 +1,24 @@
+[versions]
+jdk = "24"
+kotlin = "2.2.20"
+
+junit = "6.0.1"
+arrow = "2.2.0"
+kotest = "6.0.5"
+kotest-arrow = "2.0.0"
+mockk = "1.14.6"
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+
+[libraries]
+
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest-assertions-arrow = { module = "io.kotest.extensions:kotest-assertions-arrow", version.ref = "kotest-arrow" }
+arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
+junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+
+
+[bundles]
+test = ["mockk", "kotest-assertions-core", "kotest-assertions-arrow", "junit"]
