@@ -11,7 +11,7 @@ import org.gradle.process.ExecOperations
 import java.io.File
 import javax.inject.Inject
 
-abstract class CreateKeyTask @Inject constructor(private val execOperations: ExecOperations) : DefaultTask() {
+abstract class CreateEncryptionKeyTask @Inject constructor(private val execOperations: ExecOperations) : DefaultTask() {
 
   @get:Input
   abstract val keyFilename: Property<String>

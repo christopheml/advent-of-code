@@ -1,6 +1,6 @@
 package fr.christopheml.aoc.encryption
 
-import fr.christopheml.aoc.encryption.worker.EncryptSingleFile
+import fr.christopheml.aoc.encryption.worker.DecryptSingleFile
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileCollection
 import org.gradle.api.provider.Property
@@ -12,7 +12,7 @@ import java.io.File
 import javax.inject.Inject
 
 
-abstract class ResourceEncryptionTask : DefaultTask() {
+abstract class InputDecryptionTask : DefaultTask() {
 
   @get:InputFiles
   abstract val keyFile: Property<File>
@@ -22,18 +22,18 @@ abstract class ResourceEncryptionTask : DefaultTask() {
 
   @get:InputFiles
   @get:SkipWhenEmpty
-  val resourceFiles: FileCollection by lazy {
+  val encryptedFiles: FileCollection by lazy {
     project.files(
       project.fileTree("src/main/resources") {
-        this.include(this@ResourceEncryptionTask.includes.get())
+        this.include(this@InputDecryptionTask.includes.get() + extension)
       }.files
     )
   }
 
   @get:OutputFiles
-  val encryptedFiles: FileCollection by lazy {
-    resourceFiles
-      .map { project.file(it.toEncryptedName()) }
+  val resourceFiles: FileCollection by lazy {
+    encryptedFiles
+      .map { project.file(it.toDecryptedName()) }
       .let { project.files(it) }
   }
 
@@ -41,25 +41,27 @@ abstract class ResourceEncryptionTask : DefaultTask() {
   abstract fun getWorkerExecutor(): WorkerExecutor
 
   @TaskAction
-  open fun encrypt(inputChanges: InputChanges) {
+  open fun decrypt(inputChanges: InputChanges) {
     val workQueue = getWorkerExecutor().noIsolation()
 
-    inputChanges.getFileChanges(resourceFiles).forEach { change ->
+    inputChanges.getFileChanges(encryptedFiles).forEach { change ->
       when (change.changeType) {
         ChangeType.ADDED,
         ChangeType.MODIFIED -> {
-          workQueue.submit(EncryptSingleFile::class.java) {
+          workQueue.submit(DecryptSingleFile::class.java) {
             getSourceFile().set(change.file)
-            getTransformedFile().set(change.file.toEncryptedName())
+            getTransformedFile().set(change.file.toDecryptedName())
             getKeyFile().set(keyFile.get())
           }
         }
 
-        ChangeType.REMOVED -> { /* do nothing */ }
+        ChangeType.REMOVED -> {
+          /* do nothing */
+        }
       }
     }
   }
 
-  private fun File.toEncryptedName() = File(this.path + ".encrypted")
+  private fun File.toDecryptedName() = File(this.path.removeSuffix(extension))
 
 }

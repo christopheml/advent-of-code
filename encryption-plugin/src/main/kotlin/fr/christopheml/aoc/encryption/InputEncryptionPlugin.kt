@@ -3,42 +3,42 @@ package fr.christopheml.aoc.encryption
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class EncryptionPlugin : Plugin<Project> {
+class InputEncryptionPlugin : Plugin<Project> {
 
   override fun apply(project: Project) {
 
     val extension = project.extensions.create(
-      "resourceEncryption",
-      ResourceEncryptionExtension::class.java
+      "inputEncryption",
+      InputEncryptionExtension::class.java
     ).apply {
       keyFilename.convention(".key")
       includes.convention("inputs/day*.txt")
     }
 
-    project.tasks.register("createResourceEncryptionKey", CreateKeyTask::class.java) {
-      group = "build"
-      description = "Creates a new key for encrypting resources"
+    project.tasks.register("createEncryptionKey", CreateEncryptionKeyTask::class.java) {
+      group = "advent-of-code"
+      description = "Creates a new key for encrypting input files"
 
       keyFilename.set(extension.keyFilename)
     }
 
     project.tasks.register(
-      "encryptResources",
-      ResourceEncryptionTask::class.java
+      "encryptInputs",
+      InputEncryptionTask::class.java
     ) {
-      group = "build"
-      description = "Encrypts resources for encryption"
+      group = "advent-of-code"
+      description = "Encrypts inputs for sharing projects on the Internet"
 
       keyFile.set(extension.keyFilename.map { project.toRoot().file(it) })
       includes.set(extension.includes)
     }
 
     project.tasks.register(
-      "decryptResources",
-      ResourceDecryptionTask::class.java
+      "decryptInputs",
+      InputDecryptionTask::class.java
     ) {
-      group = "build"
-      description = "Decrypts resources for use in projects"
+      group = "advent-of-code"
+      description = "Decrypts inputs for use in puzzles"
 
       keyFile.set(extension.keyFilename.map { project.toRoot().file(it) })
       includes.set(extension.includes)

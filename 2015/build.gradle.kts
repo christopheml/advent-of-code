@@ -22,6 +22,6 @@ tasks.test {
   useJUnitPlatform()
 }
 
-resourceEncryption {
+inputEncryption {
   includes = "inputs/*.txt"
 }

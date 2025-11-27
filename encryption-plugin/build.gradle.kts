@@ -9,8 +9,8 @@ repositories {
 }
 
 gradlePlugin {
-  val resourceEncryption by plugins.creating {
+  val inputEncryption by plugins.creating {
     id = "fr.christopheml.aoc.resource-encryption"
-    implementationClass = "fr.christopheml.aoc.encryption.EncryptionPlugin"
+    implementationClass = "fr.christopheml.aoc.encryption.InputEncryptionPlugin"
   }
 }

@@ -4,7 +4,7 @@ import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
 import javax.inject.Inject
 
-open class ResourceEncryptionExtension @Inject constructor(
+open class InputEncryptionExtension @Inject constructor(
   objects: ObjectFactory,
 ) {
 
