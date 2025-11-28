@@ -9,42 +9,18 @@ class Elevator : Solution<Input.SingleLine, Int>(
   inputReader = ::singleLine
 ) {
 
-  override fun partOne(input: Input.SingleLine): Int = endFloor(input.value)
+  override fun partOne(input: Input.SingleLine): Int = input.value
+    .asSequence()
+    .fold(0, ::move)
 
-  override fun partTwo(input: Input.SingleLine): Int = firstBasementEntry(input.value)
+  override fun partTwo(input: Input.SingleLine): Int = input.value
+    .asSequence()
+    .scan(0, ::move)
+    .indexOfFirst { it < 0 }
 
-  fun endFloor(commands: String): Int {
-    var floor = 0
-    commands.rideElevator(
-      onUp = { floor++ },
-      onDown = { floor-- },
-    )
-    return floor
-  }
-
-  fun firstBasementEntry(commands: String): Int {
-    var floor = 0
-    var firstBasementEntry = 0
-    commands.rideElevator(
-      onUp = { floor++ },
-      onDown = {
-        floor--
-        if (floor < 0 && firstBasementEntry == 0) {
-          firstBasementEntry = it + 1
-        }
-      },
-    )
-    return firstBasementEntry
-  }
-
-  private fun String.rideElevator(onUp: (Int) -> Unit, onDown: (Int) -> Unit): Unit {
-    for (i in this.indices) {
-      if (this[i] == '(') {
-        onUp(i)
-      } else if (this[i] == ')') {
-        onDown(i)
-      }
-    }
+  private fun move(floor: Int, operation: Char) = when (operation) {
+    '(' -> floor + 1
+    else -> floor - 1
   }
 
 }
