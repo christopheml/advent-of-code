@@ -22,11 +22,12 @@ sealed interface Input {
 }
 
 fun <Out> multiLine(solution: Solution<MultiLine, Out>): Either<InputFailure, MultiLine> =
-    readInputFile(solution)
+  readInputFile(solution)
+    .map { it.filter(String::isNotEmpty) }
     .map { MultiLine(it) }
 
 fun <Out> singleLine(solution: Solution<Input.SingleLine, Out>): Either<InputFailure, Input.SingleLine> =
-    readInputFile(solution)
+  readInputFile(solution)
     .map { Input.SingleLine(it.first()) }
 
 fun <Out> readInputFile(solution: Solution<out Input, Out>): Either<InputFailure, List<String>> =
