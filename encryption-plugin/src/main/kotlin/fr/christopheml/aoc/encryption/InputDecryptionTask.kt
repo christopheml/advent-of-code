@@ -1,12 +1,11 @@
 package fr.christopheml.aoc.encryption
 
 import fr.christopheml.aoc.encryption.worker.DecryptSingleFile
+import fr.christopheml.aoc.encryption.worker.EncryptSingleFile
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileCollection
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.*
-import org.gradle.work.ChangeType
-import org.gradle.work.InputChanges
 import org.gradle.workers.WorkerExecutor
 import java.io.File
 import javax.inject.Inject
@@ -41,22 +40,16 @@ abstract class InputDecryptionTask : DefaultTask() {
   abstract fun getWorkerExecutor(): WorkerExecutor
 
   @TaskAction
-  open fun decrypt(inputChanges: InputChanges) {
+  open fun decrypt() {
     val workQueue = getWorkerExecutor().noIsolation()
 
-    inputChanges.getFileChanges(encryptedFiles).forEach { change ->
-      when (change.changeType) {
-        ChangeType.ADDED,
-        ChangeType.MODIFIED -> {
-          workQueue.submit(DecryptSingleFile::class.java) {
-            getSourceFile().set(change.file)
-            getTransformedFile().set(change.file.toDecryptedName())
-            getKeyFile().set(keyFile.get())
-          }
-        }
-
-        ChangeType.REMOVED -> {
-          /* do nothing */
+    encryptedFiles.forEach { input ->
+      val output = input.toDecryptedName()
+      if (!output.exists()) {
+        workQueue.submit(DecryptSingleFile::class.java) {
+          getSourceFile().set(input)
+          getTransformedFile().set(output)
+          getKeyFile().set(keyFile.get())
         }
       }
     }

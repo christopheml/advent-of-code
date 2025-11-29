@@ -5,8 +5,6 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileCollection
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.*
-import org.gradle.work.ChangeType
-import org.gradle.work.InputChanges
 import org.gradle.workers.WorkerExecutor
 import java.io.File
 import javax.inject.Inject
@@ -41,22 +39,16 @@ abstract class InputEncryptionTask : DefaultTask() {
   abstract fun getWorkerExecutor(): WorkerExecutor
 
   @TaskAction
-  open fun encrypt(inputChanges: InputChanges) {
+  open fun encrypt() {
     val workQueue = getWorkerExecutor().noIsolation()
 
-    inputChanges.getFileChanges(inputFiles).forEach { change ->
-      when (change.changeType) {
-        ChangeType.ADDED,
-        ChangeType.MODIFIED -> {
-          workQueue.submit(EncryptSingleFile::class.java) {
-            getSourceFile().set(change.file)
-            getTransformedFile().set(change.file.toEncryptedName())
-            getKeyFile().set(keyFile.get())
-          }
-        }
-
-        ChangeType.REMOVED -> {
-          /* do nothing */
+    inputFiles.forEach { input ->
+      val output = input.toEncryptedName()
+      if (!output.exists()) {
+        workQueue.submit(EncryptSingleFile::class.java) {
+          getSourceFile().set(input)
+          getTransformedFile().set(output)
+          getKeyFile().set(keyFile.get())
         }
       }
     }
