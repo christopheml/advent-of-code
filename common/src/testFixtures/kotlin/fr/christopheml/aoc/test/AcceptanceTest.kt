@@ -12,8 +12,9 @@ abstract class AcceptanceTest<In : Input, Out>(
   val solution: () -> Solution<In, Out>,
 ) {
 
-  open val forPartOne: Collection<TestExample<Out>> = emptyList()
-  open val forPartTwo: Collection<TestExample<Out>> = emptyList()
+  open val forPartOne: Collection<TestData<Out>> = emptyList()
+  open val forPartTwo: Collection<TestData<Out>> = emptyList()
+
   abstract fun toInput(text: String): In
 
   @TestFactory
@@ -21,8 +22,8 @@ abstract class AcceptanceTest<In : Input, Out>(
     val solutionInstance = solution()
 
     return forPartOne.stream().map {
-      dynamicTest(it.name) {
-        solutionInstance.partOne(toInput(it.testData.first)) shouldBe it.testData.second
+      dynamicTest(it.renderName()) {
+        solutionInstance.partOne(toInput(it.input)) shouldBe it.expected
       }
     }
   }
@@ -32,10 +33,15 @@ abstract class AcceptanceTest<In : Input, Out>(
     val solutionInstance = solution()
 
     return forPartTwo.stream().map {
-      dynamicTest(it.name) {
-        solutionInstance.partTwo(toInput(it.testData.first)) shouldBe it.testData.second
+      dynamicTest(it.renderName()) {
+        solutionInstance.partTwo(toInput(it.input)) shouldBe it.expected
       }
     }
+  }
+
+  private fun TestData<Out>.renderName() = when (this) {
+    is NamedTestExample<Out> -> name
+    else -> toName().let { name -> """"$name" = $expected""" }
   }
 
 }
