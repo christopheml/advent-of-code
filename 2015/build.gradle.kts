@@ -12,6 +12,7 @@ dependencies {
   implementation(libs.arrow.core)
   testImplementation(libs.bundles.test)
   testImplementation(kotlin("test"))
+  testImplementation(testFixtures(project(":common")))
 }
 
 kotlin {
