@@ -1,5 +1,6 @@
 plugins {
   alias(libs.plugins.kotlin.jvm)
+  `java-test-fixtures`
 }
 
 repositories {
@@ -10,6 +11,7 @@ dependencies {
   implementation(libs.arrow.core)
   testImplementation(libs.bundles.test)
   testImplementation(kotlin("test"))
+  testFixturesImplementation(libs.bundles.test)
 }
 
 kotlin {
