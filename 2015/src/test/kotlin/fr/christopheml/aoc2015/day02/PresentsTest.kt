@@ -1,29 +1,22 @@
 package fr.christopheml.aoc2015.day02
 
-import fr.christopheml.aoc.common.Input
-import io.kotest.matchers.shouldBe
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.CsvSource
+import fr.christopheml.aoc.test.MultiLineAcceptanceTest
+import fr.christopheml.aoc.test.shouldBecome
 
-class PresentsTest {
+class PresentsTest : MultiLineAcceptanceTest<Int>(::Presents) {
 
-  @DisplayName("Day 2 part 1 acceptance test")
-  @ParameterizedTest(name = "{0} needs {1} square feet of paper")
-  @CsvSource(
-    "2x3x4, 58", "1x1x10, 43", "4x3x2, 58", "1x10x1, 43"
+  override val forPartOne = listOf(
+    "2x3x4" shouldBecome 58,
+    "1x1x10" shouldBecome 43,
+    "4x3x2" shouldBecome 58,
+    "1x10x1" shouldBecome 43,
   )
-  fun `should work with part 1 examples`(present: String, expectedPaperSize: Int) {
-    Presents().partOne(Input.MultiLine(listOf(present))) shouldBe expectedPaperSize
-  }
 
-  @DisplayName("Day 2 part 2 acceptance test")
-  @ParameterizedTest(name = "{0} needs {1} feet of ribbon")
-  @CsvSource(
-    "2x3x4, 34", "1x1x10, 14", "4x3x2, 34", "1x10x1, 14"
+  override val forPartTwo = listOf(
+    "2x3x4" shouldBecome 34,
+    "1x1x10" shouldBecome 14,
+    "4x3x2" shouldBecome 34,
+    "1x10x1" shouldBecome 14,
   )
-  fun `should work with part 2 examples`(present: String, expectedRibbonLength: Int) {
-    Presents().partTwo(Input.MultiLine(listOf(present))) shouldBe expectedRibbonLength
-  }
 
 }
