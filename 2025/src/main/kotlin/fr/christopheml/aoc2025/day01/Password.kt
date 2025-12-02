@@ -1,13 +1,9 @@
 package fr.christopheml.aoc2025.day01
 
 import fr.christopheml.aoc.common.Input
-import fr.christopheml.aoc.common.multiLine
-import fr.christopheml.aoc.common.runner.Solution
+import fr.christopheml.aoc.common.runner.MultiLineSolution
 
-class Password : Solution<Input.MultiLine, Int>(
-  day = 1,
-  inputReader = ::multiLine
-) {
+class Password : MultiLineSolution<Int>(day = 1) {
 
   override fun partOne(input: Input.MultiLine): Int = rotate(input)
     .count { it % 100 == 0 }

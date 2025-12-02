@@ -1,13 +1,9 @@
 package fr.christopheml.aoc2015.day01
 
 import fr.christopheml.aoc.common.Input
-import fr.christopheml.aoc.common.runner.Solution
-import fr.christopheml.aoc.common.singleLine
+import fr.christopheml.aoc.common.runner.SingleLineSolution
 
-class Elevator : Solution<Input.SingleLine, Int>(
-  day = 1,
-  inputReader = ::singleLine
-) {
+class Elevator : SingleLineSolution<Int>(day = 1) {
 
   override fun partOne(input: Input.SingleLine): Int = input.value
     .asSequence()

@@ -1,14 +1,10 @@
 package fr.christopheml.aoc2015.day02
 
 import fr.christopheml.aoc.common.Input
-import fr.christopheml.aoc.common.multiLine
-import fr.christopheml.aoc.common.runner.Solution
+import fr.christopheml.aoc.common.runner.MultiLineSolution
 import fr.christopheml.aoc2015.day02.Present.Companion.toPresent
 
-class Presents : Solution<Input.MultiLine, Int>(
-  day = 2,
-  inputReader = ::multiLine
-) {
+class Presents : MultiLineSolution<Int>(day = 2) {
 
   override fun partOne(input: Input.MultiLine) = input
     .map { it.toPresent() }

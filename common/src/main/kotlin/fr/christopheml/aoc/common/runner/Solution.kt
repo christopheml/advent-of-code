@@ -4,6 +4,8 @@ import arrow.core.Either
 import fr.christopheml.aoc.common.Input
 import fr.christopheml.aoc.common.InputFailure
 import fr.christopheml.aoc.common.humanReadable
+import fr.christopheml.aoc.common.multiLine
+import fr.christopheml.aoc.common.singleLine
 import kotlin.time.measureTimedValue
 
 abstract class Solution<In : Input, Out>(
@@ -38,3 +40,11 @@ abstract class Solution<In : Input, Out>(
   }
 
 }
+
+abstract class SingleLineSolution<Out>(
+  day: Int,
+) : Solution<Input.SingleLine, Out>(day, ::singleLine)
+
+abstract class MultiLineSolution<Out>(
+  day: Int,
+) : Solution<Input.MultiLine, Out>(day, ::multiLine)

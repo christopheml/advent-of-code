@@ -2,14 +2,10 @@ package fr.christopheml.aoc2015.day21
 
 import fr.christopheml.aoc.common.Input
 import fr.christopheml.aoc.common.extractors.mapExtractor
-import fr.christopheml.aoc.common.multiLine
-import fr.christopheml.aoc.common.runner.Solution
+import fr.christopheml.aoc.common.runner.MultiLineSolution
 import kotlin.math.max
 
-class RpgSimulator : Solution<Input.MultiLine, Int>(
-  day = 21,
-  inputReader = ::multiLine,
-){
+class RpgSimulator : MultiLineSolution<Int>(day = 21) {
 
   override fun partOne(input: Input.MultiLine): Int {
     val boss = parse(input)

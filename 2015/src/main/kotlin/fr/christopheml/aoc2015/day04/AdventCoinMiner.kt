@@ -1,15 +1,11 @@
 package fr.christopheml.aoc2015.day04
 
 import fr.christopheml.aoc.common.Input
-import fr.christopheml.aoc.common.runner.Solution
-import fr.christopheml.aoc.common.singleLine
+import fr.christopheml.aoc.common.runner.SingleLineSolution
 import java.security.MessageDigest
 import kotlin.experimental.and
 
-class AdventCoinMiner : Solution<Input.SingleLine, Int>(
-  day = 4,
-  inputReader = ::singleLine,
-) {
+class AdventCoinMiner : SingleLineSolution<Int>(day = 4) {
 
   private val md5 = MessageDigest.getInstance("MD5")
   private val zero = 0.toByte()

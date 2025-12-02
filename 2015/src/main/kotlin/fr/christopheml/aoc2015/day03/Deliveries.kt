@@ -4,13 +4,9 @@ import fr.christopheml.aoc.common.Input
 import fr.christopheml.aoc.common.collections.asSequence
 import fr.christopheml.aoc.common.collections.map
 import fr.christopheml.aoc.common.grid.Point
-import fr.christopheml.aoc.common.runner.Solution
-import fr.christopheml.aoc.common.singleLine
+import fr.christopheml.aoc.common.runner.SingleLineSolution
 
-class Deliveries : Solution<Input.SingleLine, Int>(
-  day = 3,
-  inputReader = ::singleLine
-) {
+class Deliveries : SingleLineSolution<Int>(day = 3) {
 
   override fun partOne(input: Input.SingleLine) = input.value.distributePresents()
 

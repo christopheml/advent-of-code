@@ -1,16 +1,12 @@
 package fr.christopheml.aoc2025.day02
 
 import fr.christopheml.aoc.common.Input
-import fr.christopheml.aoc.common.runner.Solution
-import fr.christopheml.aoc.common.singleLine
+import fr.christopheml.aoc.common.runner.SingleLineSolution
 import fr.christopheml.aoc.common.toLongRange
 import kotlin.math.log10
 import kotlin.math.pow
 
-class ProductIds : Solution<Input.SingleLine, Long>(
-  day = 2,
-  inputReader = ::singleLine
-) {
+class ProductIds : SingleLineSolution<Long>(day = 2) {
 
   override fun partOne(input: Input.SingleLine): Long = input.checkIds(::partialCheck)
 
