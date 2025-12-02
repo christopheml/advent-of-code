@@ -1,9 +1,7 @@
 package fr.christopheml.aoc2025.day01
 
 import fr.christopheml.aoc.test.MultiLineAcceptanceTest
-import fr.christopheml.aoc.test.SingleLineAcceptanceTest
 import fr.christopheml.aoc.test.shouldBecome
-import org.junit.jupiter.api.Assertions.*
 
 class PasswordTest : MultiLineAcceptanceTest<Int>(::Password) {
 
