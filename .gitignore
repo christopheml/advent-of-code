@@ -23,3 +23,5 @@ out/
 # Advent of code resources
 **/src/main/resources/inputs/day*.txt
 .key
+.env
+

@@ -9,6 +9,7 @@ repositories {
 
 dependencies {
   implementation(libs.arrow.core)
+  implementation(libs.bundles.ktor.client)
   testImplementation(libs.bundles.test)
   testImplementation(kotlin("test"))
   testFixturesImplementation(libs.bundles.test)
