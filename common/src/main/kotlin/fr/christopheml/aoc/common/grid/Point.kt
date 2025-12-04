@@ -1,40 +1,44 @@
 package fr.christopheml.aoc.common.grid
 
-sealed interface Point {
+sealed interface Point<T> {
 
-  fun top(): Point
+  val x: T
 
-  fun bottom(): Point
+  val y: T
 
-  fun left(): Point
+  fun top(): Point<T>
 
-  fun right(): Point
+  fun bottom(): Point<T>
 
-  fun topLeft(): Point
+  fun left(): Point<T>
 
-  fun topRight(): Point
+  fun right(): Point<T>
 
-  fun bottomLeft(): Point
+  fun topLeft(): Point<T>
 
-  fun bottomRight(): Point
+  fun topRight(): Point<T>
 
-  fun directNeighbors() = listOf(top(), right(), bottom(), left())
+  fun bottomLeft(): Point<T>
 
-  fun diagonalNeighbors() = listOf(topLeft(), topRight(), bottomRight(), bottomLeft())
+  fun bottomRight(): Point<T>
 
-  fun allNeighbors() = listOf(top(), topRight(), right(), bottomRight(), bottom(), bottomLeft(), left(), topLeft())
+  fun directNeighbors() = sequenceOf(top(), right(), bottom(), left())
+
+  fun diagonalNeighbors() = sequenceOf(topLeft(), topRight(), bottomRight(), bottomLeft())
+
+  fun allNeighbors() = directNeighbors() + diagonalNeighbors()
 
   companion object {
 
-    fun point(x: Int, y: Int): Point = IntPoint(x, y)
+    fun point(x: Int, y: Int): Point<Int> = IntPoint(x, y)
 
-    fun point(x: Long, y: Long): Point = LongPoint(x, y)
+    fun point(x: Long, y: Long): Point<Long> = LongPoint(x, y)
 
   }
 
 }
 
-data class IntPoint(val x: Int, val y: Int) : Point {
+data class IntPoint(override val x: Int, override val y: Int) : Point<Int> {
 
   override fun top() = IntPoint(x - 1, y)
 
@@ -54,7 +58,7 @@ data class IntPoint(val x: Int, val y: Int) : Point {
 
 }
 
-data class LongPoint(val x: Long, val y: Long) : Point {
+data class LongPoint(override val x: Long, override val y: Long) : Point<Long> {
 
   override fun top() = LongPoint(x - 1, y)
 

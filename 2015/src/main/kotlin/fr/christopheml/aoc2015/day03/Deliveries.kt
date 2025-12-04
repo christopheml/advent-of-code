@@ -27,7 +27,7 @@ class Deliveries : SingleLineSolution<Int>(day = 3) {
     .distinct()
     .count()
 
-  private fun Point.move(instruction: Char) = when (instruction) {
+  private fun Point<Int>.move(instruction: Char) = when (instruction) {
     '^' -> this.top()
     '<' -> this.left()
     '>' -> this.right()
