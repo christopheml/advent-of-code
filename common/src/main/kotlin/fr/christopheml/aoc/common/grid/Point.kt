@@ -26,9 +26,9 @@ sealed interface Point {
 
   companion object {
 
-    fun of(x: Int, y: Int): Point = IntPoint(x, y)
+    fun point(x: Int, y: Int): Point = IntPoint(x, y)
 
-    fun of(x: Long, y: Long): Point = LongPoint(x, y)
+    fun point(x: Long, y: Long): Point = LongPoint(x, y)
 
   }
 
