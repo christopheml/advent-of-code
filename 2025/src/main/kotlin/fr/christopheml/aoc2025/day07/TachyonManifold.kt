@@ -53,13 +53,11 @@ class TachyonManifold : MultiLineSolution<Long>(day = 7) {
 
       fun index(depth: Int, position: Int) = depth * 10000 + position
 
-      fun next(depth: Int, position: Int): Long = memory[index(depth, position)] ?:
-        if (depth > splitters.size - 1) { 1L.also { memory[index(depth, position)] = it } }
-        else if (splitters[depth].contains(position)) {
-          (next(depth + 1, position - 1)  + next(depth + 1, position + 1)).also {
-            memory[index(depth, position)] = it
-          }
-        } else { next(depth + 1, position).also { memory[index(depth, position)] = it } }
+      fun next(depth: Int, position: Int): Long = memory.getOrPut(index(depth, position)) {
+        if (depth > splitters.size - 1) 1L
+        else if (splitters[depth].contains(position)) next(depth + 1, position - 1) + next(depth + 1, position + 1)
+        else next(depth + 1, position)
+      }
 
       return next(0, start)
     }
