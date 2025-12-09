@@ -70,16 +70,14 @@ class CircuitFolder(
   fun fold(a: Point3D, b: Point3D): CircuitFolder {
     if (lastJunctionWallDistance > 0) return this
 
-    // TODO This takes around 800Mb of allocations for part two, it could be improved
-    // Have an array of circuit number for every junction, initialized with its index
-    // Making a connection between a(n = 1) and b(n = 2) is simply changing b to b(n = 1)
     val circuitA = circuits.find { it.contains(a) }!!
     val circuitB = circuits.find { it.contains(b) }!!
-    val fused = (circuitA + circuitB).toMutableSet()
-    circuits.remove(circuitA)
-    circuits.remove(circuitB)
-    circuits.add(fused)
-
+    if (circuitA != circuitB) {
+      val fused = (circuitA + circuitB).toMutableSet()
+      circuits.remove<Set<Point3D>>(circuitA)
+      circuits.remove<Set<Point3D>>(circuitB)
+      circuits.add(fused)
+    }
 
     if (circuits.size == 1) {
       lastJunctionWallDistance = a.x.toLong() * b.x
